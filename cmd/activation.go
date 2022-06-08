@@ -38,6 +38,7 @@ func Activation(resp http.ResponseWriter, req *http.Request) {
 	requestBody["activated"] = "true"
 	requestBody["blocklist"] = strings.Join(blocklist, ",")
 	requestBody["expirationDate"] = time.Now().String()
+	requestBody["unlockCode"] = "bookie"
 
 	send, err := internal.SendBackResponse(resp, requestBody)
 	if err != nil {

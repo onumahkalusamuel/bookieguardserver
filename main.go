@@ -8,7 +8,7 @@ import (
 
 func main() {
 
-	http.HandleFunc("/posts", cmd.Activation)
+	http.HandleFunc("/activation", cmd.Activation)
 	http.HandleFunc("/hosts-upload", cmd.HostsUpload)
 	http.HandleFunc("/update", cmd.Update)
 
