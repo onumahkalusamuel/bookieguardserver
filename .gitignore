@@ -5,6 +5,9 @@ vendor/
 
 *.exe
 *.msi
-
-
+*.zip
 go.sum
+
+*.db
+*.sqlite3
+*.sqlite3-journal
