@@ -25,7 +25,7 @@ func Update(c *gin.Context) {
 	responseBody["expired"] = "false"
 	responseBody["dashboardFiles"] = ""
 
-	if requestBody["hashedID"] == "" || requestBody["appVersion"] == "" {
+	if requestBody["hashedID"] == "" {
 		c.Set("responseBody", responseBody)
 		return
 	}
@@ -34,7 +34,7 @@ func Update(c *gin.Context) {
 	computer.HashedID = requestBody["hashedID"]
 	computer.Read()
 
-	if computer.ID == 0 {
+	if computer.ID == "" {
 		responseBody["message"] = "Computer not found."
 		c.Set("responseBody", responseBody)
 		return
@@ -45,7 +45,7 @@ func Update(c *gin.Context) {
 	blockgroup.ID = computer.BlockGroupID
 	blockgroup.Read()
 
-	if blockgroup.ID == 0 {
+	if blockgroup.ID == "" {
 		responseBody["message"] = "Computer not found."
 		c.Set("responseBody", responseBody)
 		return
@@ -61,25 +61,25 @@ func Update(c *gin.Context) {
 	}
 
 	// check for appVersion update
-	s := models.Settings{}
-	s.Setting = "appVersion"
-	s.Read()
+	// s := models.Settings{}
+	// s.Setting = "appVersion"
+	// s.Read()
 
-	if s.Value != requestBody["appVersion"] {
-		responseBody["appVersion"] = s.Value
-	}
+	// if s.Value != requestBody["appVersion"] {
+	// 	responseBody["appVersion"] = s.Value
+	// }
 
 	// check for dashboardHash update
-	s.Setting = "dashboardHash"
-	s.Read()
+	// s.Setting = "dashboardHash"
+	// s.Read()
 
-	if s.Value != requestBody["dashboardHash"] {
-		responseBody["dashboardHash"] = s.Value
-		// pull in the dashboard files
-		s.Setting = "dashboardFiles"
-		s.Read()
-		responseBody["dashboardFiles"] = s.Value
-	}
+	// if s.Value != requestBody["dashboardHash"] {
+	// 	responseBody["dashboardHash"] = s.Value
+	// 	// pull in the dashboard files
+	// 	s.Setting = "dashboardFiles"
+	// 	s.Read()
+	// 	responseBody["dashboardFiles"] = s.Value
+	// }
 
 	// check for blocklist update
 	blocklist := helpers.GetBlockList(blockgroup.ID)

@@ -2,13 +2,12 @@ package models
 
 import (
 	"github.com/onumahkalusamuel/bookieguardserver/config"
-	"gorm.io/gorm"
 )
 
 // Host struct
 type Host struct {
-	gorm.Model
-	Website  string `gorm:"not null;unique_index"`
+	BaseModel
+	Website  string `gorm:"not null;uniqueIndex"`
 	HashedID string `gorm:"not null"`
 }
 

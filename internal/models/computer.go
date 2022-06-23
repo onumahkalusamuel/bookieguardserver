@@ -4,17 +4,16 @@ import (
 	"time"
 
 	"github.com/onumahkalusamuel/bookieguardserver/config"
-	"gorm.io/gorm"
 )
 
 // computers (id, user_id, block_group_id, computer_name, hashed_id, unlock_code)
 type Computer struct {
-	gorm.Model
-	UserID       uint   `gorm:"not null;references:users(id)"`
-	BlockGroupID uint   `gorm:"not null;references:block_groups(id)"`
+	BaseModel
+	UserID       string `gorm:"not null;references:users(id)"`
+	BlockGroupID string `gorm:"not null;references:block_groups(id)"`
 	ComputerName string `gorm:"not null"`
 	HashedID     string `gorm:"not null;unique;index"`
-	LastPing     string `gorm:"default:null;type:timestamp"`
+	LastPing     string `gorm:"default:null;type:date"`
 }
 
 // create Create function
@@ -25,6 +24,11 @@ func (m *Computer) Create() error {
 // create Update function
 func (m *Computer) Update() error {
 	return config.DB.First(&m, &m).Save(&m).Error
+}
+
+// create Update function
+func (m *Computer) UpdateSingle(key string, value any) error {
+	return config.DB.First(&m).Update(key, value).Error
 }
 
 // Delete function
@@ -59,5 +63,6 @@ func (m *Computer) ReadAll() (bool, []Computer) {
 
 // UpdateLastPing with current timestamp
 func (m *Computer) UpdateLastPing() error {
+	// .Format("2006-01-02")
 	return config.DB.Model(&m).Update("last_ping", time.Now()).Error
 }

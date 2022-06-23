@@ -2,20 +2,20 @@ package models
 
 import (
 	"github.com/onumahkalusamuel/bookieguardserver/config"
-	"gorm.io/gorm"
 )
 
 // payments (id, user_id, block_group_id, amount, gateway, date, details, status)
 type Payment struct {
-	gorm.Model
-	UserID       uint   `gorm:"not null;references:users(id)"`        // user_id
-	BlockGroupID uint   `gorm:"not null;references:block_groups(id)"` // block_group_id
-	Amount       uint   `gorm:"not null"`                             // amount to be paid
-	Currency     string `gorm:"not null;default:'USD'"`               // USD, GHC, NGN, etc
-	Duration     uint   `gorm:"not null"`                             // in months
-	Gateway      string `gorm:"default:null"`                         // paypal, stripe, flutterwave, paystack, etc
-	Details      string `gorm:"null"`                                 // details about the payment
-	Status       string `gorm:"not null;default:'pending'"`           // pending, success, failed
+	BaseModel
+	UserID           string `gorm:"not null;references:users(id)"`        // user_id
+	BlockGroupID     string `gorm:"not null;references:block_groups(id)"` // block_group_id
+	PaymentReference string `gorm:"default:null"`                         // the generated payment reference
+	Amount           uint   `gorm:"default:null"`                         // amount to be paid
+	Currency         string `gorm:"default:'NGN'"`                        // USD, GHC, NGN, etc
+	PlanID           string `gorm:"default:null"`                         // in months
+	Gateway          string `gorm:"default:null"`                         // paypal, stripe, flutterwave, paystack, etc
+	Details          string `gorm:"default:null"`                         // details about the payment
+	Status           string `gorm:"not null;default:'pending'"`           // pending, success, failed
 }
 
 // create Create function
@@ -26,6 +26,11 @@ func (m *Payment) Create() error {
 // create Update function
 func (m *Payment) Update() error {
 	return config.DB.First(&m, &m).Save(&m).Error
+}
+
+// create Update function
+func (m *Payment) UpdateSingle(key string, value string) error {
+	return config.DB.First(&m).Update(key, value).Error
 }
 
 // Delete function

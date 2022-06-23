@@ -2,13 +2,12 @@ package models
 
 import (
 	"github.com/onumahkalusamuel/bookieguardserver/config"
-	"gorm.io/gorm"
 )
 
 // blocklist (id, category_id, website)
 type Blocklist struct {
-	gorm.Model
-	CategoryID uint   `gorm:"not null;references:blocklist_categories(id)"`
+	BaseModel
+	CategoryID string `gorm:"not null;references:blocklist_categories(id)"`
 	Website    string `gorm:"not null;unique"`
 }
 
@@ -44,6 +43,16 @@ func (m *Blocklist) Read() error {
 func (m *Blocklist) ReadAll() (bool, []Blocklist) {
 	var blocklists []Blocklist
 	if result := config.DB.Find(&blocklists, &m); result.Error != nil {
+		return false, blocklists
+	}
+	return true, blocklists
+}
+
+func (m *Blocklist) ReadAllFull() (bool, []Blocklist) {
+	var blocklists []Blocklist
+	if result := config.DB.
+		Joins("LEFT JOIN blocklist_categories ON blocklist_categories.id=blocklists.category_id").
+		Find(&blocklists, &m); result.Error != nil {
 		return false, blocklists
 	}
 	return true, blocklists

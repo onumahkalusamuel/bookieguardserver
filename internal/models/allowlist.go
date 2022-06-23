@@ -2,14 +2,13 @@ package models
 
 import (
 	"github.com/onumahkalusamuel/bookieguardserver/config"
-	"gorm.io/gorm"
 )
 
 // allowlist (id, block_group_id, website)
 type Allowlist struct {
-	gorm.Model
-	BlockGroupID uint   `gorm:"not null;references:block_groups(id)"`
-	Website      string `gorm:"not null;unique"`
+	BaseModel
+	BlockGroupID string `gorm:"not null;references:block_groups(id)"`
+	Website      string `gorm:"not null;"`
 }
 
 // create Create function

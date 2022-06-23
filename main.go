@@ -2,72 +2,119 @@ package main
 
 import (
 	"net"
-	"net/http"
 
+	"github.com/gin-contrib/sessions"
+	"github.com/gin-contrib/sessions/cookie"
 	"github.com/gin-gonic/gin"
 	"github.com/onumahkalusamuel/bookieguardserver/config"
+	"github.com/onumahkalusamuel/bookieguardserver/internal/account"
+	"github.com/onumahkalusamuel/bookieguardserver/internal/admin"
 	"github.com/onumahkalusamuel/bookieguardserver/internal/api"
-	"github.com/onumahkalusamuel/bookieguardserver/internal/api/middleware"
 	"github.com/onumahkalusamuel/bookieguardserver/internal/db"
-	"github.com/onumahkalusamuel/bookieguardserver/internal/web"
+	"github.com/onumahkalusamuel/bookieguardserver/internal/middleware"
+	"github.com/onumahkalusamuel/bookieguardserver/internal/public"
 )
 
 func main() {
-
-	// http.HandleFunc("/activation", cmd.Activation)
-
-	// http.HandleFunc("/hosts-upload", cmd.HostsUpload)
-
-	// http.HandleFunc("/update", cmd.Update)
-
-	// http.ListenAndServe("localhost:8888", nil)
-
+	// get gin
 	r := gin.Default()
+
+	// set session
+	store := cookie.NewStore([]byte("bookieguard"))
+	r.Use(sessions.Sessions("bookieguard", store))
+
+	// setup the database
 	db.Init()
 
+	// set route for static files
 	r.Static("/assets", "./web/assets")
 
+	// set template for all web pages
+	r.LoadHTMLGlob("./web/**/*.html")
+
 	// api routes
-	apiRoutes := r.Group("/api")
+	apiRoutes := r.Group("/api/")
 	{
 		apiRoutes.Use(middleware.ApiRequest())
-		apiRoutes.POST("/activation", api.Activation, middleware.ApiResponse())
-		apiRoutes.POST("/update", api.Update, middleware.ApiResponse())
-		apiRoutes.POST("/download-updates", api.DownloadUpdates, middleware.ApiResponse())
-		apiRoutes.POST("/upload-hosts", api.UploadHosts, middleware.ApiResponse())
-		apiRoutes.POST("/system-status", api.SystemStatus, middleware.ApiResponse())
+		apiRoutes.POST("activation", api.Activation, middleware.ApiResponse())
+		apiRoutes.POST("update", api.Update, middleware.ApiResponse())
+		apiRoutes.POST("download-updates", api.DownloadUpdates, middleware.ApiResponse())
+		apiRoutes.POST("upload-hosts", api.UploadHosts, middleware.ApiResponse())
+		apiRoutes.POST("system-status", api.SystemStatus, middleware.ApiResponse())
 	}
 
-	r.LoadHTMLGlob("web/*.html")
+	// public routes
+	publicRoutes := r.Group("/")
+	{
+		publicRoutes.GET("/", public.Index)
+		publicRoutes.GET("/how-it-works", public.HowItWorks)
+		publicRoutes.GET("/contact", public.Contact)
+		publicRoutes.GET("/pricing", public.Pricing)
 
-	r.GET("/", func(c *gin.Context) {
-		c.HTML(http.StatusOK, "index.html", gin.H{
-			"title": "Bookie Guard Server",
-		})
-	})
+	}
 
-	r.GET("/admin/", func(c *gin.Context) {
-		c.HTML(http.StatusOK, "admin_index.html", gin.H{
-			"title": "Bookie Guard Server",
-		})
-	})
+	// admin routes
+	adminRoutes := r.Group("/admin/")
+	{
+		adminRoutes.GET("/login", admin.Login)
+		adminRoutes.POST("/login", admin.Login)
 
-	// r.GET("/users/index", func(c *gin.Context) {
-	// 	c.HTML(http.StatusOK, "users/index.tmpl", gin.H{
-	// 		"title": "Users",
-	// 	})
-	// })
-	// website routes
-	// r.GET("/", web.Index)
+		adminRoutes.Use(middleware.AdminAuth())
+		adminRoutes.GET("/", admin.Dashboard)
+		adminRoutes.GET("/dashboard", admin.Dashboard)
+		adminRoutes.GET("/logout", admin.Logout)
 
-	// login
-	r.GET("/login", web.Login)
-	r.POST("/login", web.LoginPost)
+		adminRoutes.GET("/users", admin.Users)
+		adminRoutes.POST("/users", admin.Users)
+		adminRoutes.GET("/users/:user_id", admin.User)
+		adminRoutes.GET("/users/:user_id/delete", admin.UserDelete)
+		adminRoutes.GET("/users/:user_id/block-groups", admin.UserBlockGroups)
+		adminRoutes.POST("/users/:user_id/block-groups", admin.UserBlockGroups)
+		adminRoutes.GET("/users/:user_id/block-groups/:blockgroup_id/settings", admin.UserBlockGroupSettings)
+		adminRoutes.POST("/users/:user_id/block-groups/:blockgroup_id/settings", admin.UserBlockGroupSettings)
+		adminRoutes.GET("/users/:user_id/block-groups/:blockgroup_id/settings/:action/:action_id", admin.UserBlockGroupSettingsAction)
 
-	r.POST("/logout", web.Logout)
+		adminRoutes.GET("/blocklist-categories", admin.BlocklistCategories)
+		adminRoutes.POST("/blocklist-categories", admin.BlocklistCategories)
+		adminRoutes.GET("/blocklist-categories/:category_id/delete", admin.BlocklistCategoriesAction)
 
-	// r.GET("/dashboard", web.Dashboard, middleware.AuthRequired())
+		adminRoutes.GET("/blocklists", admin.Blocklists)
+		adminRoutes.POST("/blocklists", admin.Blocklists)
+		adminRoutes.GET("/blocklists/:blocklist_id/delete", admin.BlocklistAction)
 
+		adminRoutes.GET("/settings", admin.Settings)
+		adminRoutes.POST("/settings", admin.Settings)
+
+	}
+
+	// user routes
+	accountRoutes := r.Group("/account")
+	{
+		accountRoutes.GET("/login", account.Login)
+		accountRoutes.POST("/login", account.LoginPost)
+		accountRoutes.GET("/register", account.Register)
+		accountRoutes.POST("/register", account.RegisterPost)
+		accountRoutes.GET("/forgot-password", account.ForgotPassword)
+		accountRoutes.POST("/forgot-password", account.ForgotPassword)
+		accountRoutes.GET("/paystack-callback", account.PaystackCallBack)
+		// authenticated routes
+		accountRoutes.Use(middleware.AccountAuth())
+		accountRoutes.GET("/", account.Dashboard)
+		accountRoutes.GET("/dashboard", account.Dashboard)
+		accountRoutes.GET("/logout", account.Logout)
+		// block groups
+		accountRoutes.GET("/block-groups", account.BlockGroups)
+		accountRoutes.POST("/block-groups", account.BlockGroups)
+		accountRoutes.GET("/block-groups/:blockgroup_id", account.BlockGroup)
+		accountRoutes.GET("/block-groups/:blockgroup_id/settings", account.BlockGroupSettings)
+		accountRoutes.POST("/block-groups/:blockgroup_id/settings", account.BlockGroupSettings)
+		accountRoutes.GET("/block-groups/:blockgroup_id/settings/:action/:action_id", account.BlockGroupSettingsAction)
+		// settings
+		accountRoutes.GET("/settings", account.Settings)
+		accountRoutes.POST("/settings", account.Settings)
+	}
+
+	// start server
 	r.Run(net.JoinHostPort(config.SERVER_HOST, config.SERVER_PORT))
 
 }

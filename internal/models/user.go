@@ -2,16 +2,17 @@ package models
 
 import (
 	"github.com/onumahkalusamuel/bookieguardserver/config"
-	"gorm.io/gorm"
 )
 
 // users (id, email, password, phone, address)
 type User struct {
-	gorm.Model
+	BaseModel
 	Name     string `gorm:"default:null"`
 	Email    string `gorm:"not null;unique"`
 	Password string `gorm:"default:null"`
 	Phone    string `gorm:"default:null"`
+	UserType string `gorm:"default:'account'"`
+	Token    string `gorm:"default:null"`
 	Address  string `gorm:"default:null"`
 }
 
@@ -22,7 +23,14 @@ func (m *User) Create() error {
 
 // create Update function
 func (m *User) Update() error {
-	return config.DB.First(&m, &m).Save(&m).Error
+	finder := User{}
+	finder.ID = m.ID
+	return config.DB.First(&m, &finder).Save(&m).Error
+}
+
+// create Update function
+func (m *User) UpdateSingle(key string, value string) error {
+	return config.DB.First(&m).Update(key, value).Error
 }
 
 // Delete function

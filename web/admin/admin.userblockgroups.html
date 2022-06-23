@@ -1,0 +1,64 @@
+{{ template "account.header.html" . }}
+<div class="3 pt-3 mt-3 mb-3 border-bottom">
+    <h2 class="3 mb-3">New Block Group</h2>
+</div>
+
+<form class="row" method="POST" , action="/account/block-groups">
+    <div class="form-group col-lg-3">
+        <label for="title">Block Group Title</label>
+        <input name="title" class="form-control" id="title" placeholder="e.g. My home devices" required>
+    </div>
+    <div class="form-group col-lg-3">
+        <label for="total">Total Devices</label>
+        <input type="number" name="total" min="1" class="form-control" id="total" required>
+    </div>
+    <div class="form-group col-lg-3">
+        <label for="plan">Plan</label>
+        <select class="form-control" name="plan" id="plan">
+            <option value="plan1">3 months (NGN 1,500/device)</option>
+            <option value="plan2">6 months (NGN 2,700/device)</option>
+            <option value="plan3">1 year (NGN 5,000/device)</option>
+            <option value="plan4">2 years (NGN 8,000/device)</option>
+            <option value="plan5">Lifetime (NGN 30,000/device)</option>
+        </select>
+    </div>
+    <div class="form-group col-lg-3 d-flex flex-column">
+        <p class="flex-grow-1"></p>
+        <button type="submit" class="btn btn-primary btn-block">Make Payment</button>
+    </div>
+</form>
+
+<hr>
+<div class="3 pt-3 mt-3 mb-3">
+    <h2 class="3 mb-3">{{.title}}</h2>
+</div>
+<div class="color-primary">
+    {{if .blockgroups}}
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Title</th>
+                    <th scope="col">Usage</th>
+                    <th scope="col">Expiration</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{range  $x, $blockgroup:= .blockgroups}}
+                <tr>
+                    <th>{{$x}}.</th>
+                    <td><a href="/account/block-groups/{{$blockgroup.ID}}">{{$blockgroup.Title}}</a></td>
+                    <td>{{$blockgroup.ActivatedComputers}} of {{$blockgroup.TotalComputers}}</td>
+                    <td>{{$blockgroup.ExpirationDate}}</td>
+                </tr>
+                {{end}}
+            </tbody>
+        </table>
+    </div>
+    {{else}}
+    no block groups found
+    {{end}}
+</div>
+
+{{ template "account.footer.html" . }}

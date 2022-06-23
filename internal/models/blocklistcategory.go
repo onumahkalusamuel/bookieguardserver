@@ -2,12 +2,11 @@ package models
 
 import (
 	"github.com/onumahkalusamuel/bookieguardserver/config"
-	"gorm.io/gorm"
 )
 
 // blocklist_categories (id, title)
 type BlocklistCategory struct {
-	gorm.Model
+	BaseModel
 	Title        string `gorm:"not null;unique"`
 	DisplayTitle string `gorm:"default:null;unique"`
 }

@@ -1,0 +1,111 @@
+{{ template "account.header.html" . }}
+<div class="3 pt-3 mt-3 mb-3 border-bottom">
+    <h2 class="3 mb-3 d-flex justify-content-between">
+        <span>{{.blockgroup.Title}}</span>
+        <a  href="/account/block-groups/{{.blockgroup.ID}}/settings" class="btn btn-primary">
+            <span data-feather="settings"></span>
+            SETTINGS
+        </a>
+    </h2>
+</div>
+
+<form class="row">
+    <div class="form-group col-lg-3">
+        <label for="total">Total Devices</label>
+        <input class="form-control" id="title" value="{{.blockgroup.TotalComputers}}" disabled>
+    </div>
+
+    <div class="form-group col-lg-3">
+        <label for="used">Connected Deviced</label>
+        <input class="form-control" id="used" value="{{.blockgroup.ActivatedComputers}}" disabled>
+    </div>
+
+    <div class="form-group col-lg-3">
+        <label for="expiration">Expiration Date</label>
+        <input class="form-control" id="expiration" value="{{.blockgroup.ExpirationDate}}" disabled>
+    </div>
+
+    <div class="form-group col-lg-3">
+        <label for="unlockcode">Unlock Code</label>
+        <input class="form-control" id="unlockcode" value="{{.blockgroup.UnlockCode}}" disabled>
+    </div>
+    <div class="form-group col-lg-3">
+        <label for="unlockcode">Activation Code</label>
+        <input class="form-control" id="unlockcode" value="{{.blockgroup.ActivationCode}}" disabled>
+    </div>
+    <div class="form-group col-lg-3">
+        <label for="currentplan">Current Plan</label>
+        <input class="form-control" id="currentplan" value="{{.blockgroup.CurrentPlan}}" disabled>
+    </div>
+
+    <div class="form-group col-lg-3 d-flex flex-column">
+        <p class="flex-grow-1"></p>
+        <button type="submit" class="btn btn-dark btn-block">Top Up</button>
+    </div>
+</form>
+
+<hr>
+<div class="3 pt-3 mt-3 mb-3">
+    <h2 class="3 mb-3">Connected Devices</h2>
+</div>
+<div class="color-primary">
+    {{if .computers}}
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Computer Name</th>
+                    <th scope="col">Last Ping</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{range  $x, $computer:= .computers}}
+                <tr>
+                    <th>{{$x}}.</th>
+                    <td><a>{{$computer.ComputerName}}</a></td>
+                    <td>{{$computer.LastPing}}</td>
+                </tr>
+                {{end}}
+            </tbody>
+        </table>
+    </div>
+    {{else}}
+    no connected device found
+    {{end}}
+</div>
+
+<hr>
+<div class="3 pt-3 mt-3 mb-3">
+    <h2 class="3 mb-3">Payments</h2>
+</div>
+<div class="color-primary">
+    {{if .payments}}
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">PaymentID | Gateway</th>
+                    <th scope="col">Amount</th>
+                    <th scope="col">Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{range  $x, $payment:= .payments}}
+                <tr>
+                    <th>{{$x}}.</th>
+                    <td>{{$payment.ID}} | {{$payment.Gateway}}</a></td>
+                    <td>{{$payment.Currency}} {{$payment.Amount}}</td>
+                    <td>{{$payment.Status}}</td>
+                </tr>
+                {{end}}
+            </tbody>
+        </table>
+    </div>
+    {{else}}
+    no payments found
+    {{end}}
+</div>
+
+{{ template "account.footer.html" . }}

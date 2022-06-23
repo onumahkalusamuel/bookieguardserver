@@ -6,7 +6,7 @@ import (
 	"github.com/onumahkalusamuel/bookieguardserver/internal/models"
 )
 
-func GetBlockList(BlockGroupID uint) string {
+func GetBlockList(BlockGroupID string) string {
 
 	blocklistHolder := []string{}
 	allowlistHolder := []string{}

@@ -2,19 +2,19 @@ package models
 
 import (
 	"github.com/onumahkalusamuel/bookieguardserver/config"
-	"gorm.io/gorm"
 )
 
 // block_groups (id, user_id, title)
 type BlockGroup struct {
-	gorm.Model
-	UserID             uint   `gorm:"not null"`
+	BaseModel
+	UserID             string `gorm:"not null"`
 	Title              string `gorm:"not null"`
 	TotalComputers     uint   `gorm:"default:0"`
 	ActivatedComputers uint   `gorm:"default:0"`
 	ExpirationDate     string `gorm:"default:null;type:date"`
 	UnlockCode         string `gorm:"not null;unique"`
 	ActivationCode     string `gorm:"not null;unique"`
+	CurrentPlan        string `gorm:"default:null;"`
 }
 
 // create Create function
@@ -25,6 +25,11 @@ func (m *BlockGroup) Create() error {
 // create Update function
 func (m *BlockGroup) Update() error {
 	return config.DB.First(&m, &m).Save(&m).Error
+}
+
+// create Update function
+func (m *BlockGroup) UpdateSingle(key string, value any) error {
+	return config.DB.First(&m).Update(key, value).Error
 }
 
 // Delete function

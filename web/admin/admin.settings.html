@@ -1,0 +1,43 @@
+{{ template "admin.header.html" . }}
+<div class="3 pt-3 mt-3 mb-3 border-bottom">
+    <h2 class="3 mb-3">New/Update Settings</h2>
+</div>
+
+<form class="row" method="POST" , action="/admin/settings">
+    <div class="form-group col-lg-3">
+        <label for="setting">Setting</label>
+        <input name="setting" class="form-control" id="setting" placeholder="e.g. appVersion" required>
+    </div>
+    <div class="form-group col-lg-3">
+        <label for="value">Value</label>
+        <input name="value" class="form-control" id="value" placeholder="e.g. 1.0.0" required>
+    </div>
+    <div class="form-group col-lg-3 d-flex flex-column">
+        <p class="flex-grow-1"></p>
+        <button type="submit" class="btn btn-primary btn-block">Submit</button>
+    </div>
+</form>
+
+<hr>
+<div class="3 pt-3 mt-3 mb-3">
+    <h2 class="3 mb-3">Settings</h2>
+</div>
+<div class="color-primary">
+    {{if .settings}}
+    <div class="row m-0">
+        {{range $setting := .settings}}
+        <div style="border: 2px solid;" class="border-secondary p-2 mr-2 mb-2 col-3">
+            <div class="mr-1">
+                <span style="font-size: 1.2em;">{{$setting.Setting}}</span>
+                <br>
+                <strong>({{$setting.Value}})</strong>
+            </div>
+        </div>
+        {{end}}
+    </div>
+    {{else}}
+    no record found
+    {{end}}
+</div>
+
+{{ template "admin.footer.html" . }}

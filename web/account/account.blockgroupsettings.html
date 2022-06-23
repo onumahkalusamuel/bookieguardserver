@@ -1,0 +1,63 @@
+{{ template "account.header.html" . }}
+<div class="3 pt-3 mt-3 mb-3 border-bottom">
+    <h2 class="3 mb-3">Block Group Settings</h2>
+    <h5><a href="/account/block-groups/{{.blockgroup.ID}}">{{.blockgroup.Title}}</a></h5>
+</div>
+
+<form class="row" method="POST" action="/account/block-groups/{{.blockgroup.ID}}/settings">
+    <div class="form-group col-lg-3">
+        <label for="website">New allowed website</label>
+        <input name="website" class="form-control" id="website" placeholder="e.g. facebook.com" required>
+    </div>
+    <div class="form-group col-lg-3 d-flex flex-column">
+        <p class="flex-grow-1"></p>
+        <button type="submit" class="btn btn-primary btn-block">Add To Allow List</button>
+    </div>
+</form>
+
+<hr>
+
+<div class="3 pt-3 mt-3 mb-3">
+    <h2 class="3 mb-3">Allow List</h2>
+</div>
+<div>
+    {{if .allowlist}}
+    <div class="d-flex flex-wrap font-weight-bold">
+        {{range $allow := .allowlist}}
+        <div style="border: 2px solid;" class="border-secondary p-2 mr-2 mb-2">
+            <a style="font-size: 1.4em;" target="_blank" href="https://{{$allow.Website}}">{{$allow.Website}}</a>
+            <a class="btn btn-danger btn-sm"
+                href="/account/block-groups/{{$allow.BlockGroupID}}/settings/delete/{{$allow.ID}}">delete</a>
+
+        </div>
+        {{end}}
+    </div>
+    {{else}}
+    no record found
+    {{end}}
+</div>
+
+<hr>
+
+<div class="3 pt-3 mt-3 mb-3">
+    <h2 class="3 mb-3">Block List</h2>
+</div>
+
+<div>
+    {{if .blocklist}}
+    <div class="d-flex flex-wrap font-weight-bold">
+        {{range $block := .blocklist}}
+        <div style="border: 2px solid;" class="border-secondary p-2 mr-2 mb-2">
+            <a style="font-size: 1.4em;" target="_blank" href="https://{{$block.Website}}">{{$block.Website}}</a>
+            <a class="btn btn-success btn-sm"
+                href="/account/block-groups/{{$.blockgroup.ID}}/settings/allow/{{$block.ID}}">allow</a>
+
+        </div>
+        {{end}}
+    </div>
+    {{else}}
+    no record found
+    {{end}}
+</div>
+
+{{ template "account.footer.html" . }}

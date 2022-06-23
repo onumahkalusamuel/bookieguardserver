@@ -2,13 +2,12 @@ package models
 
 import (
 	"github.com/onumahkalusamuel/bookieguardserver/config"
-	"gorm.io/gorm"
 )
 
 // Settings struct
 type Settings struct {
-	gorm.Model
-	Setting string `gorm:"not null;unique_index"`
+	BaseModel
+	Setting string `gorm:"not null;uniqueIndex;unique"`
 	Value   string `gorm:"not null"`
 }
 
@@ -25,6 +24,11 @@ func (s *Settings) Read() error {
 // Update updates a setting
 func (s *Settings) Update() error {
 	return config.DB.Save(s).Error
+}
+
+// create Update function
+func (m *Settings) UpdateSingle(key string, value string) error {
+	return config.DB.First(&m).Update(key, value).Error
 }
 
 // Delete deletes a setting
