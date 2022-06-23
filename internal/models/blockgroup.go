@@ -1,7 +1,7 @@
 package models
 
 import (
-	"github.com/onumahkalusamuel/bookieguardserver/config"
+	"bookieguardserver/config"
 )
 
 // block_groups (id, user_id, title)

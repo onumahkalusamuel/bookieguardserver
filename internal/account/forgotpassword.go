@@ -5,9 +5,10 @@ import (
 	"net/url"
 	"strings"
 
+	"bookieguardserver/internal/models"
+
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
-	"github.com/onumahkalusamuel/bookieguardserver/internal/models"
 )
 
 type ForgotPasswordData struct {

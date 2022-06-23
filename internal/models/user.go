@@ -1,7 +1,7 @@
 package models
 
 import (
-	"github.com/onumahkalusamuel/bookieguardserver/config"
+	"bookieguardserver/config"
 )
 
 // users (id, email, password, phone, address)

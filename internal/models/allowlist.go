@@ -1,7 +1,7 @@
 package models
 
 import (
-	"github.com/onumahkalusamuel/bookieguardserver/config"
+	"bookieguardserver/config"
 )
 
 // allowlist (id, block_group_id, website)

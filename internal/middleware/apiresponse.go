@@ -3,9 +3,10 @@ package middleware
 import (
 	"encoding/json"
 
+	"bookieguardserver/config"
+	"bookieguardserver/pkg"
+
 	"github.com/gin-gonic/gin"
-	"github.com/onumahkalusamuel/bookieguardserver/config"
-	"github.com/onumahkalusamuel/bookieguardserver/pkg"
 )
 
 func ApiResponse() gin.HandlerFunc {

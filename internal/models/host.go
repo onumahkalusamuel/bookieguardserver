@@ -1,7 +1,8 @@
 package models
 
 import (
-	"github.com/onumahkalusamuel/bookieguardserver/config"
+	"bookieguardserver/config"
+
 	"gorm.io/gorm"
 )
 

@@ -1,9 +1,10 @@
 package api
 
 import (
+	"bookieguardserver/config"
+	"bookieguardserver/internal/helpers"
+
 	"github.com/gin-gonic/gin"
-	"github.com/onumahkalusamuel/bookieguardserver/config"
-	"github.com/onumahkalusamuel/bookieguardserver/internal/helpers"
 )
 
 // Request: hashedID, fileName

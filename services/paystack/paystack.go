@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/onumahkalusamuel/bookieguardserver/config"
+	"bookieguardserver/config"
 )
 
 const initURL = "https://api.paystack.co/transaction/initialize"

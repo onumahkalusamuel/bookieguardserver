@@ -4,9 +4,10 @@ import (
 	"net/http"
 	"net/url"
 
+	"bookieguardserver/internal/models"
+
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
-	"github.com/onumahkalusamuel/bookieguardserver/internal/models"
 	"golang.org/x/crypto/bcrypt"
 )
 

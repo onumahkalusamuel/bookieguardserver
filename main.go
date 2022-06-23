@@ -4,17 +4,18 @@ import (
 	"log"
 	"net"
 
+	"bookieguardserver/config"
+	"bookieguardserver/internal/account"
+	"bookieguardserver/internal/admin"
+	"bookieguardserver/internal/api"
+	"bookieguardserver/internal/db"
+	"bookieguardserver/internal/middleware"
+	"bookieguardserver/internal/public"
+
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-contrib/sessions/cookie"
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
-	"github.com/onumahkalusamuel/bookieguardserver/config"
-	"github.com/onumahkalusamuel/bookieguardserver/internal/account"
-	"github.com/onumahkalusamuel/bookieguardserver/internal/admin"
-	"github.com/onumahkalusamuel/bookieguardserver/internal/api"
-	"github.com/onumahkalusamuel/bookieguardserver/internal/db"
-	"github.com/onumahkalusamuel/bookieguardserver/internal/middleware"
-	"github.com/onumahkalusamuel/bookieguardserver/internal/public"
 )
 
 func main() {

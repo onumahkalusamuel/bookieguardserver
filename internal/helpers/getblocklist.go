@@ -3,7 +3,7 @@ package helpers
 import (
 	"strings"
 
-	"github.com/onumahkalusamuel/bookieguardserver/internal/models"
+	"bookieguardserver/internal/models"
 )
 
 func GetBlockList(BlockGroupID string) string {

@@ -4,12 +4,13 @@ import (
 	"net/http"
 	"strings"
 
+	"bookieguardserver/config"
+	"bookieguardserver/internal/helpers"
+	"bookieguardserver/internal/models"
+	"bookieguardserver/services/paystack"
+
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
-	"github.com/onumahkalusamuel/bookieguardserver/config"
-	"github.com/onumahkalusamuel/bookieguardserver/internal/helpers"
-	"github.com/onumahkalusamuel/bookieguardserver/internal/models"
-	"github.com/onumahkalusamuel/bookieguardserver/services/paystack"
 )
 
 type NewBlockGroup struct {

@@ -5,10 +5,11 @@ import (
 	"strconv"
 	"time"
 
+	"bookieguardserver/internal/helpers"
+	"bookieguardserver/internal/models"
+	"bookieguardserver/services/paystack"
+
 	"github.com/gin-gonic/gin"
-	"github.com/onumahkalusamuel/bookieguardserver/internal/helpers"
-	"github.com/onumahkalusamuel/bookieguardserver/internal/models"
-	"github.com/onumahkalusamuel/bookieguardserver/services/paystack"
 )
 
 // Binding from JSON

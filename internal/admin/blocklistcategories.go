@@ -4,8 +4,9 @@ import (
 	"net/http"
 	"strings"
 
+	"bookieguardserver/internal/models"
+
 	"github.com/gin-gonic/gin"
-	"github.com/onumahkalusamuel/bookieguardserver/internal/models"
 )
 
 type NewBlocklistCategoryData struct {

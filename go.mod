@@ -1,4 +1,4 @@
-module github.com/onumahkalusamuel/bookieguardserver
+module bookieguardserver
 
 go 1.18
 

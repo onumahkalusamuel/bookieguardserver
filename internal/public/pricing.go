@@ -3,8 +3,9 @@ package public
 import (
 	"net/http"
 
+	"bookieguardserver/internal/helpers"
+
 	"github.com/gin-gonic/gin"
-	"github.com/onumahkalusamuel/bookieguardserver/internal/helpers"
 )
 
 func Pricing(c *gin.Context) {

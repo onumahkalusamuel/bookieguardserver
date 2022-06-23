@@ -3,7 +3,7 @@ package models
 import (
 	"time"
 
-	"github.com/onumahkalusamuel/bookieguardserver/config"
+	"bookieguardserver/config"
 )
 
 // computers (id, user_id, block_group_id, computer_name, hashed_id, unlock_code)

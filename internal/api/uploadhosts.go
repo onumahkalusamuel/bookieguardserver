@@ -3,9 +3,10 @@ package api
 import (
 	"strings"
 
+	"bookieguardserver/config"
+	"bookieguardserver/internal/models"
+
 	"github.com/gin-gonic/gin"
-	"github.com/onumahkalusamuel/bookieguardserver/config"
-	"github.com/onumahkalusamuel/bookieguardserver/internal/models"
 )
 
 // Request: hashedID, hosts

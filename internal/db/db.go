@@ -4,8 +4,9 @@ import (
 	"log"
 	"os"
 
-	"github.com/onumahkalusamuel/bookieguardserver/config"
-	"github.com/onumahkalusamuel/bookieguardserver/internal/models"
+	"bookieguardserver/config"
+	"bookieguardserver/internal/models"
+
 	"gorm.io/driver/postgres"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"

@@ -3,7 +3,7 @@ package helpers
 import (
 	"strconv"
 
-	"github.com/onumahkalusamuel/bookieguardserver/internal/models"
+	"bookieguardserver/internal/models"
 )
 
 type Plan struct {

@@ -3,8 +3,9 @@ package admin
 import (
 	"net/http"
 
+	"bookieguardserver/internal/models"
+
 	"github.com/gin-gonic/gin"
-	"github.com/onumahkalusamuel/bookieguardserver/internal/models"
 )
 
 func UserDelete(c *gin.Context) {
