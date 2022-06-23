@@ -15,7 +15,10 @@ type LoginData struct {
 func Login(c *gin.Context) {
 
 	if c.Request.Method == "GET" {
-		c.HTML(http.StatusOK, "admin.login.html", gin.H{})
+		c.HTML(http.StatusOK, "admin.login.html", gin.H{
+			"title":     "Login",
+			"canonical": "/admin/login",
+		})
 	}
 
 	if c.Request.Method == "POST" {

@@ -1,11 +1,13 @@
 package main
 
 import (
+	"log"
 	"net"
 
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-contrib/sessions/cookie"
 	"github.com/gin-gonic/gin"
+	"github.com/joho/godotenv"
 	"github.com/onumahkalusamuel/bookieguardserver/config"
 	"github.com/onumahkalusamuel/bookieguardserver/internal/account"
 	"github.com/onumahkalusamuel/bookieguardserver/internal/admin"
@@ -16,6 +18,11 @@ import (
 )
 
 func main() {
+
+	err := godotenv.Load(".env")
+	if err != nil {
+		log.Fatalf("Error loading .env file")
+	}
 	// get gin
 	r := gin.Default()
 
@@ -81,6 +88,9 @@ func main() {
 		adminRoutes.GET("/blocklists", admin.Blocklists)
 		adminRoutes.POST("/blocklists", admin.Blocklists)
 		adminRoutes.GET("/blocklists/:blocklist_id/delete", admin.BlocklistAction)
+
+		adminRoutes.GET("/hosts", admin.Hosts)
+		adminRoutes.GET("/hosts/:host_id/:action", admin.HostAction)
 
 		adminRoutes.GET("/settings", admin.Settings)
 		adminRoutes.POST("/settings", admin.Settings)

@@ -2,13 +2,15 @@ package models
 
 import (
 	"github.com/onumahkalusamuel/bookieguardserver/config"
+	"gorm.io/gorm"
 )
 
 // Host struct
 type Host struct {
 	BaseModel
-	Website  string `gorm:"not null;uniqueIndex"`
-	HashedID string `gorm:"not null"`
+	Website   string         `gorm:"not null;uniqueIndex"`
+	HashedID  string         `gorm:"not null"`
+	DeletedAt gorm.DeletedAt `gorm:"index"` // added to enable soft delete
 }
 
 // CreateHost creates a new host

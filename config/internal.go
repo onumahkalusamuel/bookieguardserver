@@ -6,15 +6,11 @@ import (
 	"gorm.io/gorm"
 )
 
-var (
-	Key = "ab9312a52781f4b7c7edf4341ef940daff94c567ffa503c3db8125fec68c4225"
-)
+var Key = "ab9312a52781f4b7c7edf4341ef940daff94c567ffa503c3db8125fec68c4225"
 
-type BodyStructure map[string]string
-
-const SERVER_PROTOCOL = "http"
-const SERVER_HOST = "localhost"
-const SERVER_PORT = "8889"
+var SERVER_PROTOCOL = "http"
+var SERVER_HOST = "localhost"
+var SERVER_PORT = "8889"
 
 const UpdatePath = "./updates/"
 
@@ -30,3 +26,5 @@ type PaystackMetaData struct {
 	UserID           string
 	PaymentReference string
 }
+
+type BodyStructure map[string]string

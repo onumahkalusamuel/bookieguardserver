@@ -11,6 +11,8 @@
 
     <link rel="canonical" href="{{.canonical}}">
 
+    <!-- Favicon-->
+    <link rel="icon" type="image/x-icon" href="/assets/favicon.ico" />
     <!-- Bootstrap core CSS -->
     <link href="/assets/css/bootstrap.min.css" rel="stylesheet">
 
@@ -130,7 +132,10 @@
 <body>
 
     <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
-        <a class="navbar-brand col-md-3 col-lg-2 mr-0 px-3" href="#">Bookie Guard</a>
+        <a class="navbar-brand col-md-3 col-lg-2 mr-0 px-3 d-flex" href="#">
+            <img class="mr-2" src="/assets/logo-72.png" alt="logo" height="32">
+            <span class="h4">Bookie Guard</span>
+        </a>
         <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-toggle="collapse"
             data-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -161,7 +166,8 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class='nav-link {{if (eq .title "Profile Settings")}}active{{end}}' href="/account/settings">
+                            <a class='nav-link {{if (eq .title "Profile Settings")}}active{{end}}'
+                                href="/account/settings">
                                 <span data-feather="settings"></span>
                                 Profile Settings
                             </a>

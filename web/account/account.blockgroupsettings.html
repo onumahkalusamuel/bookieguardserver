@@ -4,7 +4,7 @@
     <h5><a href="/account/block-groups/{{.blockgroup.ID}}">{{.blockgroup.Title}}</a></h5>
 </div>
 
-<form class="row" method="POST" action="/account/block-groups/{{.blockgroup.ID}}/settings">
+<form autocomplete="off" class="row" method="POST" action="/account/block-groups/{{.blockgroup.ID}}/settings">
     <div class="form-group col-lg-3">
         <label for="website">New allowed website</label>
         <input name="website" class="form-control" id="website" placeholder="e.g. facebook.com" required>
