@@ -6,7 +6,6 @@ vendor/
 *.exe
 *.msi
 *.zip
-go.sum
 
 *.db
 *.sqlite3
