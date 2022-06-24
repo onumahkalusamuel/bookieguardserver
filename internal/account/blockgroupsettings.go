@@ -58,8 +58,8 @@ func BlockGroupSettings(c *gin.Context) {
 
 		// filter out any blocklist that is in allowed list
 		c.HTML(http.StatusOK, "account.blockgroupsettings.html", gin.H{
-			"title":      "Payments",
-			"canonical":  "/account/payments",
+			"title":      "Block Groups",
+			"canonical":  "/account/block-groups/",
 			"blockgroup": bg,
 			"blocklist":  blocklistHolder,
 			"allowlist":  allowlistHolder,
