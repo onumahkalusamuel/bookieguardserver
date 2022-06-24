@@ -22,9 +22,12 @@ import (
 func main() {
 
 	// load env file
-	err := godotenv.Load(".env")
-	if err != nil {
-		log.Fatalf("Error loading .env file")
+	_, err := os.ReadFile(".env")
+	if err == nil {
+		err := godotenv.Load(".env")
+		if err != nil {
+			log.Fatalf("Error loading .env file")
+		}
 	}
 
 	// prepare all variables
