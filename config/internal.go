@@ -2,22 +2,19 @@ package config
 
 import (
 	"net"
+	"os"
 
 	"gorm.io/gorm"
 )
 
-var Key = "ab9312a52781f4b7c7edf4341ef940daff94c567ffa503c3db8125fec68c4225"
-
-var SERVER_PROTOCOL = "http"
-var SERVER_HOST = "localhost"
-var SERVER_PORT = "8889"
+var Key = ""
 
 const UpdatePath = "./updates/"
 
 var DB *gorm.DB
 
-var PaystackSecretKey = "sk_test_b9eb40c855f809c5f5a0633e99cf73198497fb7b"
-var PaystackCallBackURL = SERVER_PROTOCOL + "://" + net.JoinHostPort(SERVER_HOST, SERVER_PORT) + "/account/paystack-callback"
+var PaystackSecretKey = ""
+var PaystackCallBackURL = "https://"
 var PaystackCurrency = "NGN"
 var PaystackChannels = []string{"card", "bank", "ussd", "qr", "bank_transfer"}
 
@@ -28,3 +25,17 @@ type PaystackMetaData struct {
 }
 
 type BodyStructure map[string]string
+
+func SetUpEnv() {
+
+	if os.Getenv("ENV") == "dev" {
+		os.Setenv("PORT", "8889")
+		os.Setenv("HOST", "localhost")
+
+		PaystackCallBackURL = "http://"
+	}
+
+	Key = os.Getenv("APP_DECRYPT_KEY")
+	PaystackSecretKey = os.Getenv("PAYSTACK_SECRET_KEY")
+	PaystackCallBackURL = PaystackCallBackURL + net.JoinHostPort(os.Getenv("HOST"), os.Getenv("PORT")) + "/account/paystack-callback"
+}

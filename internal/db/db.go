@@ -16,7 +16,7 @@ func Init() {
 
 	var err error
 
-	if config.SERVER_HOST == "localhost" {
+	if os.Getenv("ENV") == "dev" {
 		config.DB, err = gorm.Open(sqlite.Open("test.db"), &gorm.Config{})
 	} else {
 		dsn := os.Getenv("DATABASE_URL")

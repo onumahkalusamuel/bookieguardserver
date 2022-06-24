@@ -3,6 +3,7 @@ package main
 import (
 	"log"
 	"net"
+	"os"
 
 	"bookieguardserver/config"
 	"bookieguardserver/internal/account"
@@ -20,10 +21,15 @@ import (
 
 func main() {
 
+	// load env file
 	err := godotenv.Load(".env")
 	if err != nil {
 		log.Fatalf("Error loading .env file")
 	}
+
+	// prepare all variables
+	config.SetUpEnv()
+
 	// get gin
 	r := gin.Default()
 
@@ -126,6 +132,6 @@ func main() {
 	}
 
 	// start server
-	r.Run(net.JoinHostPort(config.SERVER_HOST, config.SERVER_PORT))
+	r.Run(net.JoinHostPort(os.Getenv("HOST"), os.Getenv("PORT")))
 
 }
