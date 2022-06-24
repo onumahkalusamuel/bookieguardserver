@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
-	"net"
 	"net/http"
 	"os"
 
@@ -130,13 +129,14 @@ func VerifyPayment(reference string) config.BodyStructure {
 	}
 }
 
-func GetCallbackURL() string {
-	var PaystackCallBackURL = "https://"
+func GetCallbackURL(serverHost string) string {
+
+	var protocol = "https://"
+
 	if os.Getenv("ENV") == "dev" {
-		PaystackCallBackURL = "http://"
+		protocol = "http://"
 	}
 
-	PaystackCallBackURL = PaystackCallBackURL + net.JoinHostPort(os.Getenv("HOST"), os.Getenv("PORT")) + "/account/paystack-callback"
-
+	var PaystackCallBackURL = protocol + serverHost + "/account/paystack-callback"
 	return PaystackCallBackURL
 }
