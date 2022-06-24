@@ -62,7 +62,7 @@
             <tbody>
                 {{range  $x, $computer:= .computers}}
                 <tr>
-                    <th>{{$x}}.</th>
+                    <th>{{ len (printf "a%*s" $x "") }}. </th>
                     <td><a>{{$computer.ComputerName}}</a></td>
                     <td>{{$computer.LastPing}}</td>
                 </tr>
@@ -94,7 +94,7 @@
             <tbody>
                 {{range  $x, $payment:= .payments}}
                 <tr>
-                    <th>{{$x}}.</th>
+                    <th>{{ len (printf "a%*s" $x "") }}. </th>
                     <td>{{$payment.ID}} | {{$payment.Gateway}}</a></td>
                     <td>{{$payment.Currency}} {{$payment.Amount}}</td>
                     <td>{{$payment.Status}}</td>

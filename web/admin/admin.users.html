@@ -44,7 +44,7 @@
             <tbody>
                 {{range $x, $user:= .users}}
                 <tr>
-                    <th>{{$x}}.</th>
+                    <th>{{ len (printf "a%*s" $x "") }}. </th>
                     <td> <strong>{{$user.Name}}</strong> <br/> {{$user.Email}} </td>
                     <td>
                         <a class="btn btn-sm btn-success" href="/admin/users/{{$user.ID}}/blockgroups">Block Groups</a>

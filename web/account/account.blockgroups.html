@@ -45,7 +45,7 @@
             <tbody>
                 {{range  $x, $blockgroup:= .blockgroups}}
                 <tr>
-                    <th>{{$x}}.</th>
+                    <th>{{ len (printf "a%*s" $x "") }}. </th>
                     <td><a href="/account/block-groups/{{$blockgroup.ID}}">{{$blockgroup.Title}}</a></td>
                     <td>{{$blockgroup.ActivatedComputers}} of {{$blockgroup.TotalComputers}}</td>
                     <td>{{$blockgroup.ExpirationDate}}</td>
