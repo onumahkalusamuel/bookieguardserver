@@ -4,7 +4,9 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
+	"net"
 	"net/http"
+	"os"
 
 	"bookieguardserver/config"
 )
@@ -12,14 +14,20 @@ import (
 const initURL = "https://api.paystack.co/transaction/initialize"
 const verifyURL = "https://api.paystack.co/transaction/verify/%v"
 
-var headers = config.BodyStructure{
-	"Authorization": "Bearer " + config.PaystackSecretKey,
-	"Content-Type":  "application/json",
-}
+var headers = config.BodyStructure{}
 
 var client = &http.Client{}
 
+func setHeaders() {
+	headers = config.BodyStructure{
+		"Authorization": "Bearer " + os.Getenv("PAYSTACK_SECRET_KEY"),
+		"Content-Type":  "application/json",
+	}
+}
+
 func CreatePaymentLink(params map[string]any) config.BodyStructure {
+
+	setHeaders()
 
 	marshaled, _ := json.Marshal(params)
 
@@ -61,6 +69,8 @@ func CreatePaymentLink(params map[string]any) config.BodyStructure {
 }
 
 func VerifyPayment(reference string) config.BodyStructure {
+
+	setHeaders()
 
 	url := fmt.Sprintf(verifyURL, reference)
 
@@ -118,4 +128,15 @@ func VerifyPayment(reference string) config.BodyStructure {
 		"blockGroupID":     metadata["BlockGroupID"].(string),
 		"paymentReference": metadata["PaymentReference"].(string),
 	}
+}
+
+func GetCallbackURL() string {
+	var PaystackCallBackURL = "https://"
+	if os.Getenv("ENV") == "dev" {
+		PaystackCallBackURL = "http://"
+	}
+
+	PaystackCallBackURL = PaystackCallBackURL + net.JoinHostPort(os.Getenv("HOST"), os.Getenv("PORT")) + "/account/paystack-callback"
+
+	return PaystackCallBackURL
 }

@@ -91,7 +91,7 @@ func BlockGroups(c *gin.Context) {
 			"currency":     config.PaystackCurrency,
 			"email":        user.Email,
 			"reference":    paymentReference,
-			"callback_url": config.PaystackCallBackURL,
+			"callback_url": paystack.GetCallbackURL(),
 			"channel":      config.PaystackChannels,
 			"metadata": config.PaystackMetaData{
 				BlockGroupID:     bg.ID,

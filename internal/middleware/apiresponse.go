@@ -2,6 +2,7 @@ package middleware
 
 import (
 	"encoding/json"
+	"os"
 
 	"bookieguardserver/config"
 	"bookieguardserver/pkg"
@@ -42,7 +43,7 @@ func ApiResponse() gin.HandlerFunc {
 			}
 		}
 
-		c.JSON(200, config.BodyStructure{"data": pkg.Encrypt(string(bytes), config.Key)})
+		c.JSON(200, config.BodyStructure{"data": pkg.Encrypt(string(bytes), os.Getenv("APP_DECRYPT_KEY"))})
 
 		c.Next()
 	}

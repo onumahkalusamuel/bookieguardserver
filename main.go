@@ -5,7 +5,6 @@ import (
 	"net"
 	"os"
 
-	"bookieguardserver/config"
 	"bookieguardserver/internal/account"
 	"bookieguardserver/internal/admin"
 	"bookieguardserver/internal/api"
@@ -21,7 +20,7 @@ import (
 
 func main() {
 
-	// load env file
+	// load env file if on localhost
 	_, err := os.ReadFile(".env")
 	if err == nil {
 		err := godotenv.Load(".env")
@@ -31,7 +30,10 @@ func main() {
 	}
 
 	// prepare all variables
-	config.SetUpEnv()
+	if os.Getenv("ENV") == "dev" {
+		os.Setenv("PORT", "8889")
+		os.Setenv("HOST", "localhost")
+	}
 
 	// get gin
 	r := gin.Default()

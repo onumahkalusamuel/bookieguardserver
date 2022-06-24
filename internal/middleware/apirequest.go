@@ -2,6 +2,7 @@ package middleware
 
 import (
 	"encoding/json"
+	"os"
 
 	"bookieguardserver/config"
 	"bookieguardserver/pkg"
@@ -27,7 +28,7 @@ func ApiRequest() gin.HandlerFunc {
 			return
 		}
 
-		data := pkg.Decrypt(body.Data, config.Key)
+		data := pkg.Decrypt(body.Data, os.Getenv("APP_DECRYPT_KEY"))
 
 		json.Unmarshal([]byte(data), &requestBody)
 
