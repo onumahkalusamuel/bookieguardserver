@@ -1,0 +1,63 @@
+{{ template "account.header.html" . }}
+<div class="3 pt-3 mt-3 mb-3 border-bottom">
+    <h2 class="3 mb-3">Top Up Block Group</h2>
+</div>
+
+<form autocomplete="off" class="row" method="POST" action="/account/block-groups/{{.blockgroup.ID}}/topup">
+    <div class="form-group col-lg-3">
+        <label for="title">Block Group Title</label>
+        <input class="form-control" id="title" value="{{.blockgroup.Title}}" readonly required>
+    </div>
+    <div class="form-group col-lg-3">
+        <label for="plan">Plan</label>
+        <input type="hidden" name="total" value="{{.blockgroup.TotalComputers}}" id="total">
+        {{range $plan := .plans }}
+        <input type="hidden" value="{{$plan.Price}}" id="{{$plan.Key}}price">
+        <input type="hidden" value="{{$plan.Duration}}" id="{{$plan.Key}}duration">
+        {{end}}
+        <select class="form-control" name="plan" id="plan">
+            {{range $plan := .plans }}
+            {{if eq $plan.Key "plan5"}}
+            <option value="{{$plan.Key}}">{{$plan.Title}} (NGN {{$plan.Price}}/device)</option>
+            {{else}}
+            <option value="{{$plan.Key}}">{{$plan.Title}} (NGN {{$plan.Price}}/month/device)</option>
+            {{end}}
+            {{end}}
+        </select>
+    </div>
+    <div class="form-group col-lg-3 d-flex flex-column">
+        <p class="flex-grow-1"></p>
+        <button type="submit" class="btn btn-primary btn-block">Make Payment</button>
+    </div>
+    <div class="form-group col-lg-12">
+        <strong class="h5">Deposit Amount: NGN <span id="deposit_amount">0</span></strong>
+    </div>
+</form>
+
+<script>
+    function calculateDepositAmount() {
+        var plan = document.querySelector("#plan").value
+        var total = document.querySelector("#total").value
+        var price = document.querySelector("#" + plan + "price").value
+        var duration = document.querySelector("#" + plan + "duration").value
+        var targetElement = document.querySelector("#deposit_amount")
+
+        var depositAmount = 0
+
+        depositAmount = total * price * duration
+
+        if (plan == "plan5") depositAmount = total * price
+
+
+        targetElement.textContent = depositAmount.toLocaleString("en-US");
+    }
+
+    document.querySelector("#plan").addEventListener("change", calculateDepositAmount);
+    document.querySelector("#total").addEventListener("change", calculateDepositAmount);
+    document.querySelector("#total").addEventListener("keyup", calculateDepositAmount);
+    calculateDepositAmount();
+
+</script>
+<hr>
+
+{{ template "account.footer.html" . }}

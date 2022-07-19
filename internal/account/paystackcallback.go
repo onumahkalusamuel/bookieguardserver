@@ -85,12 +85,22 @@ func PaystackCallBack(c *gin.Context) {
 		return
 	}
 
-	extent := 30 * selectedPlan.Duration * 24 * uint(time.Hour)
-	expirateDate := time.Now().Add(time.Duration(extent))
+	extent := ((30 * selectedPlan.Duration) + 3) * 24 * uint(time.Hour)
+
+	var expirateDate time.Time
+	if blockgroup.ExpirationDate != "" {
+		t, _ := time.Parse("2006-01-02T00:00:00Z", blockgroup.ExpirationDate)
+		expirateDate = t.Add(time.Duration(extent))
+	} else {
+		expirateDate = time.Now().Add(time.Duration(extent))
+	}
 
 	blockgroup.UpdateSingle("expiration_date", expirateDate.Format("2006-01-02"))
 
-	c.String(200, "Payment was processed successfully. You can go back to your dashboard now.")
+	c.HTML(200, "account.redirect.html", gin.H{
+		"url":     "/account/block-groups/" + blockgroup.ID,
+		"message": "Payment was processed successfully.",
+	})
 	return
 
 }

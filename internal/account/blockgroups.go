@@ -3,11 +3,10 @@ package account
 import (
 	"net/http"
 	"strings"
+	"time"
 
-	"bookieguardserver/config"
 	"bookieguardserver/internal/helpers"
 	"bookieguardserver/internal/models"
-	"bookieguardserver/services/paystack"
 
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
@@ -27,7 +26,13 @@ func BlockGroups(c *gin.Context) {
 	bg.UserID = userId.(string)
 
 	if c.Request.Method == "GET" {
+
 		_, blockgroups := bg.ReadAll()
+
+		for index, blockgroup := range blockgroups {
+			t, _ := time.Parse("2006-01-02T00:00:00Z", blockgroup.ExpirationDate)
+			blockgroups[index].ExpirationDate = t.Format("02-Jan-2006")
+		}
 
 		c.HTML(http.StatusOK, "account.blockgroups.html", gin.H{
 			"title":       "Block Groups",
@@ -60,64 +65,12 @@ func BlockGroups(c *gin.Context) {
 
 		bg.Create()
 
-		// fetch the plans
-		var selectedPlan helpers.Plan
-		plans := helpers.GetPlans()
-
-		for _, plan := range plans {
-			if plan.Key == json.Plan {
-				selectedPlan = plan
-				break
-			}
-		}
-
-		// check if plan was captured
-		if selectedPlan.Key == "" {
-			c.String(200, "Unable to find selected plan.")
+		success, response := helpers.ProcessBlockGroupPayment(c, json.Plan, userId.(string), bg)
+		if !success {
+			c.String(200, response["message"])
 			return
 		}
-
-		amount := selectedPlan.Price * json.TotalComputers * 100
-
-		user := models.User{}
-		user.ID = userId.(string)
-		user.Read()
-
-		pR, _ := uuid.NewRandom()
-		paymentReference := pR.String()
-
-		paymentLink := paystack.CreatePaymentLink(map[string]any{
-			"amount":       amount,
-			"currency":     config.PaystackCurrency,
-			"email":        user.Email,
-			"reference":    paymentReference,
-			"callback_url": paystack.GetCallbackURL(c.Request.Host),
-			"channel":      config.PaystackChannels,
-			"metadata": config.PaystackMetaData{
-				BlockGroupID:     bg.ID,
-				UserID:           user.ID,
-				PaymentReference: paymentReference,
-			},
-		})
-
-		if paymentLink["success"] != "true" {
-			c.String(200, paymentLink["message"])
-			return
-		}
-
-		// save the payment details
-		payment := models.Payment{}
-		payment.UserID = user.ID
-		payment.BlockGroupID = bg.ID
-		payment.PaymentReference = paymentReference
-		payment.Amount = amount / 100
-		payment.Currency = "NGN"
-		payment.PlanID = selectedPlan.Key
-		payment.Details = paymentLink["link"]
-		payment.Gateway = "paystack"
-		payment.Create()
-
 		// send response
-		c.HTML(200, "account.redirect.html", gin.H{"url": paymentLink["link"]})
+		c.HTML(200, "account.redirect.html", gin.H{"url": response["link"]})
 	}
 }

@@ -46,8 +46,10 @@
                 <tr>
                     <th>{{ len (printf "a%*s" $x "") }}. </th>
                     <td> <strong>{{$user.Name}}</strong> <br/> {{$user.Email}} </td>
-                    <td>
-                        <a class="btn btn-sm btn-success" href="/admin/users/{{$user.ID}}/blockgroups">Block Groups</a>
+                    <td class="d-flex">
+                        <form class="pr-2" action="/admin/users/{{$user.ID}}/block-groups" method="POST" onsubmit="return confirm('Are you sure you want to login as this user?');">
+                            <button type="submit" class="btn btn-sm btn-success">Login as user</button>
+                        </form>
                         <a class="btn btn-sm btn-danger" href="/admin/users/{{$user.ID}}/delete">Delete User</a>
                     </td>
                 </tr>

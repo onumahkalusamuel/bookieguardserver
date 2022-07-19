@@ -33,6 +33,7 @@ func Init() {
 		&models.Blocklist{},
 		&models.BlocklistCategory{},
 		&models.Computer{},
+		&models.Contact{},
 		&models.Host{},
 		&models.Payment{},
 		&models.Settings{},

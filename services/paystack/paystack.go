@@ -118,11 +118,10 @@ func VerifyPayment(reference string) config.BodyStructure {
 			"message": "Vital details missing. Please contact admin.",
 		}
 	}
-
 	// successful response
 	return config.BodyStructure{
 		"success":          "true",
-		"amount":           fmt.Sprint(d["amount"]),
+		"amount":           fmt.Sprint(int(d["amount"].(float64))),
 		"userID":           metadata["UserID"].(string),
 		"blockGroupID":     metadata["BlockGroupID"].(string),
 		"paymentReference": metadata["PaymentReference"].(string),

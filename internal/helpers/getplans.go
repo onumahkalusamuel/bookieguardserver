@@ -20,7 +20,7 @@ func GetPlans() []Plan {
 		{Key: "plan2", Title: "6 Months", Duration: 6},
 		{Key: "plan3", Title: "1 Year", Duration: 12},
 		{Key: "plan4", Title: "2 Years", Duration: 24},
-		{Key: "plan5", Title: "Lifetime", Duration: 120},
+		{Key: "plan5", Title: "Lifetime", Duration: 240},
 	}
 
 	// get plans

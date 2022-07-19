@@ -10,8 +10,8 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// Request: hashedID, appVersion, blocklistHash, dashboardHash
-// Response: success, message, appVersion, blocklist, blocklistHash, expired, expirationDate, dashboardFiles, dashboardHash
+// Request: hashedID, appVersion, blocklistHash
+// Response: success, message, appVersion, blocklist, blocklistHash, expired, expirationDate
 
 func Update(c *gin.Context) {
 
@@ -24,7 +24,6 @@ func Update(c *gin.Context) {
 	responseBody["appVersion"] = "1.0.0"
 	responseBody["blocklist"] = ""
 	responseBody["expired"] = "false"
-	responseBody["dashboardFiles"] = ""
 
 	if requestBody["hashedID"] == "" {
 		c.Set("responseBody", responseBody)
@@ -62,25 +61,13 @@ func Update(c *gin.Context) {
 	}
 
 	// check for appVersion update
-	// s := models.Settings{}
-	// s.Setting = "appVersion"
-	// s.Read()
+	s := models.Settings{}
+	s.Setting = "appVersion"
+	s.Read()
 
-	// if s.Value != requestBody["appVersion"] {
-	// 	responseBody["appVersion"] = s.Value
-	// }
-
-	// check for dashboardHash update
-	// s.Setting = "dashboardHash"
-	// s.Read()
-
-	// if s.Value != requestBody["dashboardHash"] {
-	// 	responseBody["dashboardHash"] = s.Value
-	// 	// pull in the dashboard files
-	// 	s.Setting = "dashboardFiles"
-	// 	s.Read()
-	// 	responseBody["dashboardFiles"] = s.Value
-	// }
+	if s.Value != "" && s.Value != requestBody["appVersion"] {
+		responseBody["appVersion"] = s.Value
+	}
 
 	// check for blocklist update
 	blocklist := helpers.GetBlockList(blockgroup.ID)

@@ -1,111 +1,86 @@
 {{ template "account.header.html" . }}
 <div class="3 pt-3 mt-3 mb-3 border-bottom">
+    <h5><a href="/account/block-groups">&larr; Block Groups</a></h5>
     <h2 class="3 mb-3 d-flex justify-content-between">
         <span>{{.blockgroup.Title}}</span>
-        <a  href="/account/block-groups/{{.blockgroup.ID}}/settings" class="btn btn-primary">
-            <span data-feather="settings"></span>
-            SETTINGS
-        </a>
+        <div>
+            <small>Activation Code: {{.blockgroup.ActivationCode}}&nbsp;</small>
+            <a href="/account/block-groups/{{.blockgroup.ID}}/info" class="btn btn-primary" title="info">
+                <span data-feather="info"></span>
+                <!-- INFO -->
+            </a>
+
+        </div>
     </h2>
 </div>
 
-<form autocomplete="off" class="row">
+<form autocomplete="off" class="row" method="POST" action="/account/block-groups/{{.blockgroup.ID}}">
     <div class="form-group col-lg-3">
-        <label for="total">Total Devices</label>
-        <input class="form-control" id="title" value="{{.blockgroup.TotalComputers}}" disabled>
+        <label for="website">New allowed website</label>
+        <input name="website" class="form-control" id="website" placeholder="e.g. facebook.com" required>
     </div>
-
-    <div class="form-group col-lg-3">
-        <label for="used">Connected Deviced</label>
-        <input class="form-control" id="used" value="{{.blockgroup.ActivatedComputers}}" disabled>
-    </div>
-
-    <div class="form-group col-lg-3">
-        <label for="expiration">Expiration Date</label>
-        <input class="form-control" id="expiration" value="{{.blockgroup.ExpirationDate}}" disabled>
-    </div>
-
-    <div class="form-group col-lg-3">
-        <label for="unlockcode">Unlock Code</label>
-        <input class="form-control" id="unlockcode" value="{{.blockgroup.UnlockCode}}" disabled>
-    </div>
-    <div class="form-group col-lg-3">
-        <label for="unlockcode">Activation Code</label>
-        <input class="form-control" id="unlockcode" value="{{.blockgroup.ActivationCode}}" disabled>
-    </div>
-    <div class="form-group col-lg-3">
-        <label for="currentplan">Current Plan</label>
-        <input class="form-control" id="currentplan" value="{{.blockgroup.CurrentPlan}}" disabled>
-    </div>
-
     <div class="form-group col-lg-3 d-flex flex-column">
         <p class="flex-grow-1"></p>
-        <button type="submit" class="btn btn-dark btn-block">Top Up</button>
+        <button type="submit" class="btn btn-primary btn-block">Add To Allow List</button>
     </div>
 </form>
 
 <hr>
+
 <div class="3 pt-3 mt-3 mb-3">
-    <h2 class="3 mb-3">Connected Devices</h2>
+    <h2 class="3 mb-3">Allow List</h2>
 </div>
-<div class="color-primary">
-    {{if .computers}}
-    <div class="table-responsive">
-        <table class="table">
-            <thead>
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Computer Name</th>
-                    <th scope="col">Last Ping</th>
-                </tr>
-            </thead>
-            <tbody>
-                {{range  $x, $computer:= .computers}}
-                <tr>
-                    <th>{{ len (printf "a%*s" $x "") }}. </th>
-                    <td><a>{{$computer.ComputerName}}</a></td>
-                    <td>{{$computer.LastPing}}</td>
-                </tr>
-                {{end}}
-            </tbody>
-        </table>
+<div>
+    {{if .allowlist}}
+    <div class="d-flex flex-wrap font-weight-bold">
+        {{range $allow := .allowlist}}
+        <div style="border: 2px solid;" class="border-secondary p-2 mr-2 mb-2">
+            <a style="font-size: 1.4em;" target="_blank" href="https://{{$allow.Website}}">{{$allow.Website}}</a>
+            <a class="btn btn-danger btn-sm"
+                href="/account/block-groups/{{$allow.BlockGroupID}}/delete/{{$allow.ID}}">delete</a>
+
+        </div>
+        {{end}}
     </div>
     {{else}}
-    no connected device found
+    no record found
     {{end}}
 </div>
 
 <hr>
-<div class="3 pt-3 mt-3 mb-3">
-    <h2 class="3 mb-3">Payments</h2>
-</div>
-<div class="color-primary">
-    {{if .payments}}
-    <div class="table-responsive">
-        <table class="table">
-            <thead>
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">PaymentID | Gateway</th>
-                    <th scope="col">Amount</th>
-                    <th scope="col">Status</th>
-                </tr>
-            </thead>
-            <tbody>
-                {{range  $x, $payment:= .payments}}
-                <tr>
-                    <th>{{ len (printf "a%*s" $x "") }}. </th>
-                    <td>{{$payment.ID}} | {{$payment.Gateway}}</a></td>
-                    <td>{{$payment.Currency}} {{$payment.Amount}}</td>
-                    <td>{{$payment.Status}}</td>
-                </tr>
-                {{end}}
-            </tbody>
-        </table>
-    </div>
-    {{else}}
-    no payments found
-    {{end}}
-</div>
 
+<div class="mb-5">
+    <div class="3 pt-3 mt-3 mb-3 d-flex justify-content-between">
+        <h2 class="3 mb-3">Block List</h2>
+        <div>
+            <a class="btn btn-primary btn-sm" data-toggle="collapse" href="#collapseExample" role="button"
+                aria-expanded="false" aria-controls="collapseExample">
+                expand/collapse
+            </a>
+        </div>
+    </div>
+
+    <div class="collapse" id="collapseExample">
+        <div class="card card-body">
+            {{if .blocklist}}
+            <div class="d-flex flex-wrap font-weight-bold">
+                {{range $block := .blocklist}}
+                <div style="border: 2px solid;" class="border-secondary p-2 mr-2 mb-2">
+                    <a style="font-size: 1.4em;" target="_blank"
+                        href="https://{{$block.Website}}">{{$block.Website}}</a>
+                    <a class="btn btn-success btn-sm"
+                        href="/account/block-groups/{{$.blockgroup.ID}}/allow/{{$block.ID}}">allow</a>
+
+                </div>
+                {{end}}
+            </div>
+            {{else}}
+            no record found
+            {{end}}
+        </div>
+    </div>
+    <br/>
+    <br/>
+    <br/>
+</div>
 {{ template "account.footer.html" . }}

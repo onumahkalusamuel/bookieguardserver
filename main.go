@@ -68,7 +68,9 @@ func main() {
 		publicRoutes.GET("/", public.Index)
 		publicRoutes.GET("/how-it-works", public.HowItWorks)
 		publicRoutes.GET("/contact", public.Contact)
+		publicRoutes.POST("/contact", public.Contact)
 		publicRoutes.GET("/pricing", public.Pricing)
+		publicRoutes.GET("/downloads", public.Downloads)
 
 	}
 
@@ -89,9 +91,9 @@ func main() {
 		adminRoutes.GET("/users/:user_id/delete", admin.UserDelete)
 		adminRoutes.GET("/users/:user_id/block-groups", admin.UserBlockGroups)
 		adminRoutes.POST("/users/:user_id/block-groups", admin.UserBlockGroups)
-		adminRoutes.GET("/users/:user_id/block-groups/:blockgroup_id/settings", admin.UserBlockGroupSettings)
-		adminRoutes.POST("/users/:user_id/block-groups/:blockgroup_id/settings", admin.UserBlockGroupSettings)
-		adminRoutes.GET("/users/:user_id/block-groups/:blockgroup_id/settings/:action/:action_id", admin.UserBlockGroupSettingsAction)
+
+		adminRoutes.GET("/contact", admin.Contact)
+		adminRoutes.GET("/contact/:action_id/:action", admin.ContactAction)
 
 		adminRoutes.GET("/blocklist-categories", admin.BlocklistCategories)
 		adminRoutes.POST("/blocklist-categories", admin.BlocklistCategories)
@@ -127,10 +129,12 @@ func main() {
 		// block groups
 		accountRoutes.GET("/block-groups", account.BlockGroups)
 		accountRoutes.POST("/block-groups", account.BlockGroups)
+		accountRoutes.POST("/block-groups/:blockgroup_id", account.BlockGroup)
 		accountRoutes.GET("/block-groups/:blockgroup_id", account.BlockGroup)
-		accountRoutes.GET("/block-groups/:blockgroup_id/settings", account.BlockGroupSettings)
-		accountRoutes.POST("/block-groups/:blockgroup_id/settings", account.BlockGroupSettings)
-		accountRoutes.GET("/block-groups/:blockgroup_id/settings/:action/:action_id", account.BlockGroupSettingsAction)
+		accountRoutes.GET("/block-groups/:blockgroup_id/:action/:action_id", account.BlockGroupAction)
+		accountRoutes.GET("/block-groups/:blockgroup_id/info", account.BlockGroupInfo)
+		accountRoutes.GET("/block-groups/:blockgroup_id/topup", account.BlockGroupTopUp)
+		accountRoutes.POST("/block-groups/:blockgroup_id/topup", account.BlockGroupTopUp)
 		// settings
 		accountRoutes.GET("/settings", account.Settings)
 		accountRoutes.POST("/settings", account.Settings)

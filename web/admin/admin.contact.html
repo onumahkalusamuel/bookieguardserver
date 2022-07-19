@@ -1,0 +1,45 @@
+{{ template "admin.header.html" . }}
+
+<div class="3 pt-3 mt-3 mb-3">
+    <h2 class="3 mb-3">Contact Forms</h2>
+</div>
+<style>
+    .unread {
+        background: #2223;
+        font-size: 1.1rem;
+    }
+</style>
+<div class="color-primary">
+    {{if .contacts}}
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">User</th>
+                    <th scope="col">Content</th>
+                    <th scope="col">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{range $x, $contact:= .contacts}}
+                <tr {{if eq $contact.ReadStatus 0}} class="unread" {{end}}>
+                    <th>{{ len (printf "a%*s" $x "") }}. </th>
+                    <td> <strong>{{$contact.Name}}</strong> <br /> {{$contact.Email}} </td>
+                    <td> <strong>{{$contact.Subject}}</strong> <br /> {{$contact.Message}} </td>
+                    <td>
+                        <a class="btn btn-sm btn-success" href="/admin/contact/{{$contact.ID}}/mark-as-read">Mark as
+                            Read</a>
+                        <a class="btn btn-sm btn-danger" href="/admin/contact/{{$contact.ID}}/delete">Delete</a>
+                    </td>
+                </tr>
+                {{end}}
+            </tbody>
+        </table>
+    </div>
+    {{else}}
+    no records found
+    {{end}}
+</div>
+
+{{ template "admin.footer.html" . }}

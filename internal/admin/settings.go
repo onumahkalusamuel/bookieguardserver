@@ -2,6 +2,7 @@ package admin
 
 import (
 	"net/http"
+	"strings"
 
 	"bookieguardserver/internal/models"
 
@@ -39,7 +40,7 @@ func Settings(c *gin.Context) {
 			return
 		}
 
-		settings := models.Settings{Setting: newData.Setting}
+		settings := models.Settings{Setting: strings.Trim(newData.Setting, " ")}
 		settings.Read()
 
 		if settings.ID != "" {

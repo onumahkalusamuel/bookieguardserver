@@ -1,8 +1,10 @@
 package account
 
 import (
+	"fmt"
 	"net/http"
 
+	"bookieguardserver/internal/helpers"
 	"bookieguardserver/internal/models"
 
 	"github.com/gin-gonic/gin"
@@ -54,6 +56,19 @@ func RegisterPost(c *gin.Context) {
 			"message": "an error occured. please try again later.",
 		})
 		return
+	}
+
+	var message = "Hello " + user.Name + "<br/><br/>," +
+		"We want to specially welcome you to BookieGuard. All instructions on setting up your bookie shop can be found here. <br/>" +
+		"Feel free to send us a mail anytime for further assistance when needed.<br/>" +
+		"Welcome onboard once again...<br/><br/>" +
+		"Support Team,<br/>" +
+		"<strong>Bookie Guard.</strong><br/>" +
+		"https://bookieguard.herokuapp.com<br/>"
+
+	err := helpers.SendEmail("support", user.Email, "Welcome onboard "+user.Name+" - Bookie Guard Support", message)
+	if err != nil {
+		fmt.Println(err.Error())
 	}
 
 	c.JSON(200, gin.H{

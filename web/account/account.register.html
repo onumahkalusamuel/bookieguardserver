@@ -1,7 +1,7 @@
 {{ template "account.auth.header.html" . }}
 
 <form autocomplete="off" id="form" class="form-signin" action="/account/register" method="POST" onsubmit="return ajaxPost();">
-  <img class="mb-4" src="/assets/logo-72.png" alt="logo" height="72">
+  <a href="/"><img class="mb-4" src="/assets/logo-72.png" alt="logo" height="72"></a>
   <h1 class="h3 mb-3 font-weight-normal">Register New Account</h1>
   <label for="name" class="sr-only">Name</label>
   <input type="text" name="name" id="name" class="form-control" placeholder="Full name" required autofocus>
@@ -15,7 +15,7 @@
   <div class="mt-2">
     <span>Already registered? <a href="login">Login here</a></span>
   </div>
-  <p class="mt-5 mb-3 text-muted">&copy; BookieGuard - 2022</p>
+  <p class="mt-5 mb-3 text-muted">&copy;<a href="/">BookieGuard</a> - 2022</p>
 </form>
 
 {{ template "account.auth.footer.html" . }}

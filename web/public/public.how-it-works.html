@@ -1,47 +1,148 @@
 {{ template "public.header.html" . }}
 
 <!-- Heading Row-->
-<div class="row gx-4 gx-lg-5 align-items-center my-5">
-    <div class="col-lg-7"><img class="img-fluid rounded mb-4 mb-lg-0" src="https://dummyimage.com/900x400/dee2e6/6c757d.jpg" alt="..." /></div>
-    <div class="col-lg-5">
-        <h1 class="font-weight-light">Business Name or Tagline</h1>
-        <p>This is a template that is great for small businesses. It doesn't have too much fancy flare to it, but it makes a great use of the standard Bootstrap core components. Feel free to use this template for any project you want!</p>
-        <a class="btn btn-primary" href="#!">Call to Action!</a>
+<div class="row gx-4 gx-lg-5 align-items-center my-5 text-center">
+    <div class="col-lg">
+        <h1 class="font-weight-light">How It Works</h1>
+        <p>Bookie Guard filters websites visited by your customers, saving
+            you from virus infestation and data subscription wastage</p>
     </div>
 </div>
-<!-- Call to Action-->
-<div class="card text-white bg-secondary my-5 py-4 text-center">
-    <div class="card-body"><p class="text-white m-0">This call to action card is a great place to showcase some important information or display a clever tagline!</p></div>
+
+<div class="row gx-4 gx-lg-5 text-center">
+    <h4 class="font-weight-light">It takes just a few steps to get started...</h4>
 </div>
 <!-- Content Row-->
-<div class="row gx-4 gx-lg-5">
+<div class="row gx-4 gx-lg-5 text-center pt-5">
     <div class="col-md-4 mb-5">
         <div class="card h-100">
             <div class="card-body">
-                <h2 class="card-title">Card One</h2>
-                <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rem magni quas ex numquam, maxime minus quam molestias corporis quod, ea minima accusamus.</p>
+                <h2 class="card-title">Create Block Group</h2>
+                <p class="card-text"><a href="/account/register">Register</a> an account and create blockgroups to group
+                    computers with common settings. Complete the payment online with your card, and your blockgroup is
+                    ready for use instantly.</p>
             </div>
-            <div class="card-footer"><a class="btn btn-primary btn-sm" href="#!">More Info</a></div>
+            <div class="card-footer"><a class="btn btn-primary btn-sm" href="#create-block-group">Detailed
+                    Instructions</a></div>
         </div>
     </div>
     <div class="col-md-4 mb-5">
         <div class="card h-100">
             <div class="card-body">
-                <h2 class="card-title">Card Two</h2>
-                <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quod tenetur ex natus at dolorem enim! Nesciunt pariatur voluptatem sunt quam eaque, vel, non in id dolore voluptates quos eligendi labore.</p>
+                <h2 class="card-title">Set Blocking Rules</h2>
+                <p class="card-text">Add website(s) that you want to allow in the blockgroup settings, one at a time.
+                    Copy your Activation Code and get ready to activate your computers.</p>
             </div>
-            <div class="card-footer"><a class="btn btn-primary btn-sm" href="#!">More Info</a></div>
+            <div class="card-footer"><a class="btn btn-primary btn-sm" href="#set-blocking-rules">Detailed
+                    Instructions</a></div>
         </div>
     </div>
     <div class="col-md-4 mb-5">
         <div class="card h-100">
             <div class="card-body">
-                <h2 class="card-title">Card Three</h2>
-                <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rem magni quas ex numquam, maxime minus quam molestias corporis quod, ea minima accusamus.</p>
+                <h2 class="card-title">Activate Blocking</h2>
+                <p class="card-text"><a href="/downloads">Download</a>, install, and launch the software. Enter
+                    registered email and Activation Code to activate system instantly. Set your proxy. Happy blocking.
+                </p>
             </div>
-            <div class="card-footer"><a class="btn btn-primary btn-sm" href="#!">More Info</a></div>
+            <div class="card-footer"><a class="btn btn-primary btn-sm" href="#activate-blocking">Detailed
+                    Instructions</a></div>
         </div>
     </div>
+</div>
+
+<div class="row gx-4 gx-lg-5 align-items-center my-5" id="create-block-group">
+    <div class="col-lg">
+        <h1 class="font-weight-light mb-2">Create Block Group</h1>
+
+        <h3 class="my-2">Register an account</h3>
+        <p>To start using Bookie Guard, you need a user account. <a href="/account/register">Click here</a> to register
+            one now. After signing up, <a href="/account/login">login here</a> to continue.</p>
+
+        <h3 class="my-2" id="blockgroups">Create Block Groups</h3>
+        <p>
+            Block Groups are logical groups created to manage devices that need similar settings. Let's say you have two
+            bookie shops (Bet9ja and MerryBet). You will need two different settings for the shops, hence two Block
+            Groups.
+        </p>
+        <p>
+            You'll create two Block Groups (Bet9ja Shop and MerryBet Shop). You can use any name but it's best to use a
+            name that relates to the shops. For each block group, enter the number of devices that will be under the
+            group. Select your <a href="/pricing">desired plan</a> and proceed to make payment.
+        </p>
+        <p>
+            You will be redirected to a payment page to complete the transaction. Once the payment is completed, you'll
+            be redirected to your dashboard. The block group will be automatically assigned an Activation Code and
+            Unlock Code that will be used for activation and deactivation on the devices respectively.
+        </p>
+    </div>
+</div>
+
+<div class="row gx-4 gx-lg-5 align-items-center my-5" id="set-blocking-rules">
+    <div class="col-lg">
+        <h1 class="font-weight-light mb-2">Set Blocking Rules</h1>
+
+        <h3 class="my-2">Add website(s)</h3>
+        <p>Bookie Guard blocks ALL* websites by default. So in order to allow a website to be used, it needs to be added
+            to the allow list.</p>
+        <p>To add a website, select the block group from <a href="/account/block-groups">Block Group List</a>. Enter the
+            desired website and submit. Voila! Website has been added to the allowed list.</p>
+
+        <h3 class="my-2">Allow blocked website(s)</h3>
+        <p>There are two ways to allow a previously blocked website.
+        <ul>
+            <li>Add the website again to allowed list.</li>
+            <li>Delete the website from list of blocked websites.</li>
+        </ul>
+
+        <h3 class="my-2">Delete website(s)</h3>
+        <p>
+            To remove a website from allowed list of a blockgroup, simply click on the delete button and the website
+            will be deleted. Updates will reflect on all systems within 30 mins, or you can click on Check for Updates
+            in the installed software to pull in updates.
+        </p>
+    </div>
+</div>
+
+<div class="row gx-4 gx-lg-5 align-items-center my-5" id="activate-blocking">
+    <div class="col-lg">
+        <h1 class="font-weight-light mb-2">Activate Blocking</h1>
+
+        <h3 class="my-2">Download and install</h3>
+        <p>After setting up your Block groups online, you need to install the program into the computers you want to
+            them to run in. </p>
+        <p>Download the latest version <a href="/downloads">from here</a>. Install the program and launch it by typing
+            "Bookie Guard" into your search and clicking on Bookie Guard icon.</p>
+
+        <h3 class="my-2">Activation</h3>
+        <p>You will be taken to the activation page. Here you'll enter your <strong>email</strong> and
+            <strong>Activation Code</strong> for the
+            particular Block Group you want to link the computer to. Then click on activate. The details will be
+            validated, and software activated accordingly.
+        </p>
+
+        <h3 class="my-2">Set Proxy</h3>
+        <p>On successful activation, proceed to set up your system or browser proxy settings accordingly. Set Proxy as
+            <strong>localhost</strong> and Port as <strong>8888.</strong></p>
+        <p>Here are instructions for the popular browsers:</p>
+        <ul>
+            <li><a target="_blank" href="https://www.simplified.guide/google-chrome/change-proxy-setting">Google
+                    Chrome</a></li>
+            <li><a target="_blank" href="https://www.wikihow.com/Enter-Proxy-Settings-in-Firefox">Mozilla Firefox</a>
+            </li>
+            <li><a target="_blank"
+                    href="https://aboutdevice.com/set-up-the-proxy-settings-on-microsoft-edge-browser/">Microsoft
+                    Edge</a></li>
+        </ul>
+
+        <p>Congratulations!!! Your system is set up now. Go ahead and test by visiting the blocked and allowed websites.
+        </p>
+    </div>
+</div>
+
+<div class="row gx-4 gx-lg-5 text-center my-5 border py-4">
+    <p class="h2 font-weight-light">Ready to come on board?</p>
+    <p class="mt-4"><a class="btn btn-primary btn-lg" href="/account/register">Register an account in seconds.</a></p>
 </div>
 
 {{ template "public.footer.html" . }}

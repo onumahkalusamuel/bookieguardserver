@@ -10,13 +10,21 @@
     </div>
     <div class="form-group col-lg-3">
         <label for="total">Total Devices</label>
-        <input type="number" name="total" min="1" class="form-control" id="total" required>
+        <input type="number" name="total" min="1" value="1" class="form-control" id="total" required>
     </div>
     <div class="form-group col-lg-3">
         <label for="plan">Plan</label>
+        {{range $plan := .plans }}
+        <input type="hidden" value="{{$plan.Price}}" id="{{$plan.Key}}price">
+        <input type="hidden" value="{{$plan.Duration}}" id="{{$plan.Key}}duration">
+        {{end}}
         <select class="form-control" name="plan" id="plan">
             {{range $plan := .plans }}
+            {{if eq $plan.Key "plan5"}}
             <option value="{{$plan.Key}}">{{$plan.Title}} (NGN {{$plan.Price}}/device)</option>
+            {{else}}
+            <option value="{{$plan.Key}}">{{$plan.Title}} (NGN {{$plan.Price}}/month/device)</option>
+            {{end}}
             {{end}}
         </select>
     </div>
@@ -24,8 +32,35 @@
         <p class="flex-grow-1"></p>
         <button type="submit" class="btn btn-primary btn-block">Make Payment</button>
     </div>
+    <div class="form-group col-lg-12">
+        <strong class="h5">Deposit Amount: NGN <span id="deposit_amount">0.00</span></strong>
+    </div>
 </form>
 
+<script>
+    function calculateDepositAmount() {
+        var plan = document.querySelector("#plan").value
+        var total = document.querySelector("#total").value
+        var price = document.querySelector("#" + plan + "price").value
+        var duration = document.querySelector("#" + plan + "duration").value
+        var targetElement = document.querySelector("#deposit_amount")
+
+        var depositAmount = 0
+
+        depositAmount = total * price * duration
+
+        if (plan == "plan5") depositAmount = total * price
+
+
+        targetElement.textContent = depositAmount.toLocaleString("en-US");
+    }
+
+    document.querySelector("#plan").addEventListener("change", calculateDepositAmount);
+    document.querySelector("#total").addEventListener("change", calculateDepositAmount);
+    document.querySelector("#total").addEventListener("keyup", calculateDepositAmount);
+    calculateDepositAmount();
+
+</script>
 <hr>
 <div class="3 pt-3 mt-3 mb-3">
     <h2 class="3 mb-3">{{.title}}</h2>
@@ -40,15 +75,18 @@
                     <th scope="col">Title</th>
                     <th scope="col">Usage</th>
                     <th scope="col">Expiration</th>
+                    <th scope="col">Action</th>
                 </tr>
             </thead>
             <tbody>
-                {{range  $x, $blockgroup:= .blockgroups}}
+                {{range $x, $blockgroup:= .blockgroups}}
                 <tr>
                     <th>{{ len (printf "a%*s" $x "") }}. </th>
                     <td><a href="/account/block-groups/{{$blockgroup.ID}}">{{$blockgroup.Title}}</a></td>
                     <td>{{$blockgroup.ActivatedComputers}} of {{$blockgroup.TotalComputers}}</td>
                     <td>{{$blockgroup.ExpirationDate}}</td>
+                    <td><a class="btn btn-primary" href="/account/block-groups/{{$blockgroup.ID}}">view</a></td>
+
                 </tr>
                 {{end}}
             </tbody>
