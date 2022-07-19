@@ -5,6 +5,7 @@ vendor/
 
 *.exe
 *.msi
+!bookieguard.msi
 *.zip
 
 *.db
